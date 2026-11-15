@@ -6,6 +6,20 @@ import { buildWeekStates, computeStats, startOfToday } from './lib/weeks'
 import type { LifeWeeksInput } from './types'
 import './App.css'
 
+function SourceFooter() {
+  return (
+    <footer className="app-footer no-print">
+      <a
+        href="https://github.com/andy23512/arcturus"
+        target="_blank"
+        rel="noopener"
+      >
+        Source on GitHub
+      </a>
+    </footer>
+  )
+}
+
 function App() {
   const [input, setInput] = useState<LifeWeeksInput | null>(null)
 
@@ -19,6 +33,7 @@ function App() {
           </p>
         </header>
         <DateForm onSubmit={setInput} />
+        <SourceFooter />
       </div>
     )
   }
@@ -43,6 +58,7 @@ function App() {
 
       <StatsPanel stats={stats} hasFullSwitch={Boolean(input.charaFull)} />
       <WeeksGrid weekStates={weekStates} />
+      <SourceFooter />
     </div>
   )
 }

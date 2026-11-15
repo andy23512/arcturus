@@ -75,3 +75,15 @@
     -webkit-print-color-adjust: exact;
   }
 }
+
+.app-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.app-footer a {
+  color: inherit;
+  text-decoration: underline;
+}

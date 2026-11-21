@@ -39,11 +39,16 @@ describe('parseDateInput', () => {
     expect([date.getMonth(), date.getDate()]).toEqual([1, 29])
   })
 
-  it('has no complaint about a date that does not exist (it rolls over), current behaviour', () => {
-    const date = parseDateInput('2023-02-30')!
-    expect([date.getMonth(), date.getDate()]).toEqual([2, 2])
-    const month13 = parseDateInput('2023-13-01')!
-    expect([month13.getFullYear(), month13.getMonth()]).toEqual([2024, 0])
+  it('refuses a date that does not exist instead of rolling it over', () => {
+    for (const bad of ['2023-02-30', '2023-02-29', '2023-13-01', '2023-00-10', '2023-04-31', '2023-01-00', '2023-01-32', '0050-01-01']) {
+      expect(parseDateInput(bad), bad).toBeNull()
+    }
+  })
+
+  it('accepts the last day of each kind of month', () => {
+    for (const ok of ['2023-01-31', '2023-04-30', '2023-02-28', '2023-12-31']) {
+      expect(parseDateInput(ok), ok).not.toBeNull()
+    }
   })
 })
 
@@ -308,6 +313,7 @@ describe('validateInput', () => {
 
   it('refuses an unreadable full-switch date, but a missing one is fine', () => {
     expect(check('1990-05-01', '2020-01-01', 'junk').errors).toEqual({ charaFull: 'Invalid date.' })
+    expect(check('1990-05-01', '2020-01-01', '2023-02-30').errors).toEqual({ charaFull: 'Invalid date.' })
     expect(check('1990-05-01', '2020-01-01', '').errors).toEqual({})
   })
 

@@ -13,7 +13,16 @@ export function parseDateInput(value: string): Date | null {
   if (!match) return null
   const [, year, month, day] = match
   const date = new Date(Number(year), Number(month) - 1, Number(day))
-  return Number.isNaN(date.getTime()) ? null : date
+  if (Number.isNaN(date.getTime())) return null
+  // `Date` rolls impossible days over (2023-02-30 -> 2 March), so check it came back unchanged.
+  if (
+    date.getFullYear() !== Number(year) ||
+    date.getMonth() !== Number(month) - 1 ||
+    date.getDate() !== Number(day)
+  ) {
+    return null
+  }
+  return date
 }
 
 export function startOfToday(): Date {

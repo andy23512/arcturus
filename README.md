@@ -1,5 +1,7 @@
 # Arcturus
 
+[![CI](https://github.com/andy23512/arcturus/actions/workflows/ci.yml/badge.svg)](https://github.com/andy23512/arcturus/actions/workflows/ci.yml)
+
 A "Your Life in Weeks" style chart that highlights how many weeks of your life you've spent typing with a CharaChorder.
 
 ## Links

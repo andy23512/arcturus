@@ -4,7 +4,7 @@ export const WEEKS_PER_ROW = 52
 export const LIFESPAN_YEARS = 90
 export const TOTAL_WEEKS = WEEKS_PER_ROW * LIFESPAN_YEARS
 
-const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000
+const MS_PER_DAY = 24 * 60 * 60 * 1000
 
 // Parsed/compared as local calendar dates at midnight, so a user's "today"
 // always matches their own local date regardless of UTC offset.
@@ -25,8 +25,11 @@ function clamp(n: number, min: number, max: number): number {
   return Math.min(Math.max(n, min), max)
 }
 
+// Both dates are local midnights, so across a daylight-saving change the gap is a
+// whole number of days give or take an hour. Rounding to whole days first keeps a
+// span that is exactly N weeks from reading as N weeks minus an hour.
 export function weeksBetween(a: Date, b: Date): number {
-  return Math.floor((b.getTime() - a.getTime()) / MS_PER_WEEK)
+  return Math.floor(Math.round((b.getTime() - a.getTime()) / MS_PER_DAY) / 7)
 }
 
 export function buildWeekStates(input: LifeWeeksInput, today: Date = startOfToday()): WeekState[] {
